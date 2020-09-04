@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Listagem de clientes
+{% endblock title %}
+
+{% block content %}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Listagem de clientes</h3>
+    </div>
+
+    <div class="box-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cnpj</th>
+                    <th>email</th>
+                    <th>Telefone </th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for fornecedor in fornecedores %}
+                <tr>
+                    <td> <a href="#">{{fornecedor.nome}} </a> </td>
+                    <td>{{fornecedor.cnpj}}</td>
+                    <td>{{fornecedor.email}}</td>
+                    <td>{{fornecedor.telefone}}</td>                  
+                    <td>
+                        <a href="#">Editar</a>
+                        <a href="#">Remover</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <a href="{% url 'cadastrar_cliente' %}">
+            <button class="btn btn-primary">Cadastrar</button>
+        </a>
+    </div>
+
+</div>
+
+{% endblock content %}
+

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load filtros%}
+
+{% block title %}
+Excluisão de Funcionario
+{% endblock title %}
+
+
+{% block content %}
+
+    <div class="box box-primary">
+        <div class="box-headers with-border">
+            <h3 class="box-title"> Tem certeza que deseja excluir esse Funcionario ?</h3>
+        </div>
+        <div class="box-body">
+            <h5>Nome: {{funcionario.nome}}</h5>
+            <h5>Cargo: {{funcionario.profissao}}</h5>
+            <h5>Data de Nascimento: {{funcionario.data_nascimento}}</h5>
+            <h5>Email: {{funcionario.email}}</h5>
+            <h5>CPF: {{funcionario.cpf}}</h5>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Remover</button>
+        </form>
+
+    </div>
+
+{% endblock content %}

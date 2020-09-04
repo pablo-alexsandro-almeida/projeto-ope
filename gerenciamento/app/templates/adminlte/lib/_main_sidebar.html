@@ -1,0 +1,28 @@
+{% extends "adminlte/lib/_main_sidebar.html" %}
+
+{% block nav_links %}
+
+<li>
+    <a href="{% url 'listar_cliente' %}">
+        <i class="fa fa-user"></i> <span>Cliente</span>
+    </a>
+</li>
+
+<li>
+    <a href="{% url 'listar_funcionarios' %}">
+        <i class="fa fa-users"></i> <span>Funcionario</span>
+    </a>
+</li>
+
+<li>
+    <a href="{% url 'listar_produtos' %}">
+        <i class="fa  fa-cubes"></i> <span>Produto</span>
+    </a>
+</li>
+
+<li>
+    <a href="{% url 'listar_forncedores' %}">
+        <i class="fa fa-sitemap"></i> <span>Fornecedores</span>
+    </a>
+</li>
+{% endblock nav_links %}

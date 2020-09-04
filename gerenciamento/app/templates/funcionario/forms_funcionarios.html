@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load filtros%}
+
+{% block title %}
+Cadatro de Funcionario
+{% endblock title %}
+
+{% block content %}
+    <div class="box box-primary">
+        <div class="box-header with-broder">
+            <h3 class="box-title"> Cadastro de Funcionario</h3>
+        </div>
+
+        <div class="box-header">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{form_funcionario.nome.errors}}
+                    <label> Nome: </label>
+                    {{form_funcionario.nome | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_funcionario.email.erros}}
+                    <label> Email: </label>
+                    {{form_funcionario.email | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_funcionario.cpf.errors}}
+                    <label> CPF: </label>
+                    {{form_funcionario.cpf | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_funcionario.data_nascimento.errors}}
+                    <label> Data de Nascimento: </label>
+                    {{form_funcionario.data_nascimento | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_funcionario.profissa.errors}}
+                    <label> Cargo: </label>
+                    {{form_funcionario.profissao | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_funcionario.telefone.errors}}
+                    <label> Telefone: </label>
+                    {{form_funcionario.telefone | addclass:'form-control'}}
+                </div>
+                <hr>
+                <h4>Endereço</h4>
+                <div class="form-group">
+                {{form_endereco.rua.errors}}
+                    <label> Rua: </label>
+                    {{form_endereco.rua | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_endereco.cidade.errors}}
+                    <label> Cidade: </label>
+                    {{form_endereco.cidade | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_endereco.estado.errors}}
+                    <label> Estado: </label>
+                    {{form_endereco.estado | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                    <input type="submit" class='btn btn-primary' name="Cadastrar">
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock content %}
