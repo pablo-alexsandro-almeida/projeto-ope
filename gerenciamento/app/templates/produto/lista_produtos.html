@@ -19,7 +19,7 @@ Listagem de clientes
                     <th>Fornecedor</th>
                     <th>Preço</th>
                     <th>Codigo Fabricante</th>
-                    <th>Categoria</th>
+                    <th>Veiculo</th>
                     <th>Peso</th>
                     <th>Ações</th>
                 </tr>
@@ -32,18 +32,18 @@ Listagem de clientes
                     <td>{{produto.fornecedor}}</td>
                     <td>{{produto.preco}}</td>
                     <td>{{produto.codigo_fabricante}}</td>
-                    <td>{{produto.categoria}}</td>
+                    <td>{{produto.veiculo}}</td>
                     <td>{{produto.peso}}</td>
                     <td>
-                        <a href="#">Editar</a>
-                        <a href="#">Remover</a>
+                        <a href="{% url 'editar_produto' produto.id %}">Editar</a>
+                        <a href="{% url 'remover_produto' produto.id %}">Remover</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         <hr>
-        <a href="{% url 'cadastrar_cliente' %}">
+        <a href="{% url 'cadastrar_produto' %}">
             <button class="btn btn-primary">Cadastrar</button>
         </a>
     </div>

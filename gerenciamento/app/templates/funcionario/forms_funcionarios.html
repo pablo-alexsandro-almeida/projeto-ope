@@ -21,11 +21,6 @@ Cadatro de Funcionario
                     {{form_funcionario.nome | addclass:'form-control'}}
                 </div>
                 <div class="form-group">
-                {{form_funcionario.email.erros}}
-                    <label> Email: </label>
-                    {{form_funcionario.email | addclass:'form-control'}}
-                </div>
-                <div class="form-group">
                 {{form_funcionario.cpf.errors}}
                     <label> CPF: </label>
                     {{form_funcionario.cpf | addclass:'form-control'}}
@@ -46,21 +41,25 @@ Cadatro de Funcionario
                     {{form_funcionario.telefone | addclass:'form-control'}}
                 </div>
                 <hr>
-                <h4>Endereço</h4>
                 <div class="form-group">
-                {{form_endereco.rua.errors}}
-                    <label> Rua: </label>
-                    {{form_endereco.rua | addclass:'form-control'}}
+                    {{form_funcionario.email.erros}}
+                        <label> Email: </label>
+                    {{form_funcionario.email | addclass:'form-control'}}
                 </div>
                 <div class="form-group">
-                {{form_endereco.cidade.errors}}
-                    <label> Cidade: </label>
-                    {{form_endereco.cidade | addclass:'form-control'}}
+                    {{form_funcionario.username.erros}}
+                        <label> Nome de Usario: </label>
+                        {{form_funcionario.username | addclass:'form-control'}}
                 </div>
                 <div class="form-group">
-                {{form_endereco.estado.errors}}
-                    <label> Estado: </label>
-                    {{form_endereco.estado | addclass:'form-control'}}
+                    {{form_funcionario.password1.erros}}
+                        <label> Senha de Usario: </label>
+                        {{form_funcionario.password1 | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                    {{form_funcionario.password2.erros}}
+                        <label> Confirmação de senha: </label>
+                        {{form_funcionario.password2 | addclass:'form-control'}}
                 </div>
                 <div class="form-group">
                     <input type="submit" class='btn btn-primary' name="Cadastrar">

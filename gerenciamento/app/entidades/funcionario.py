@@ -1,20 +1,13 @@
 class Funcionario():
-    def __init__(self, nome, email, cpf, data_nascimento, profissao, telefone, endereco):
+    def __init__(self, nome, cpf, data_nascimento, profissao, telefone, username, password, email):
         self.__nome = nome
-        self.__email = email
         self.__cpf = cpf
         self.__data_nascimento = data_nascimento
         self.__profissao = profissao
         self.__telefone = telefone
-        self.__endereco = endereco
-
-    @property
-    def nome(self):
-        return self.__nome
-
-    @nome.setter
-    def nome(self, nome):
-        self.__nome = nome
+        self.__username = username
+        self.__password = password
+        self.__email = email
 
     @property
     def email(self):
@@ -23,6 +16,30 @@ class Funcionario():
     @email.setter
     def email(self, email):
         self.__email = email
+
+    @property
+    def password(self):
+        return self.__password
+
+    @password.setter
+    def password(self, nome):
+        self.__password = password 
+
+    @property
+    def username(self):
+        return self.__username
+
+    @username.setter
+    def username(self, nome):
+        self.__username = username 
+
+    @property
+    def nome(self):
+        return self.__nome
+
+    @nome.setter
+    def nome(self, nome):
+        self.__nome = nome   
 
     @property
     def cpf(self):
@@ -55,11 +72,3 @@ class Funcionario():
     @telefone.setter
     def telefone(self, telefone):
         self.__telefone = telefone
-
-    @property
-    def endereco(self):
-        return self.__endereco
-        
-    @endereco.setter
-    def endereco(self, endereco):
-        self.__endereco = endereco

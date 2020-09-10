@@ -55,13 +55,17 @@ def listar_funcionario_id(id):
     return Funcionario.objects.get(id=id)
 
 def cadastrar_funcionario(funcionario):
-    Funcionario.objects.create(nome=funcionario.nome, email=funcionario.email, endereco=funcionario.endereco,
+    Funcionario.objects.create(nome=funcionario.nome,
                                data_nascimento=funcionario.data_nascimento, cpf=funcionario.cpf,
-                               profissao=funcionario.profissao, telefone=funcionario.telefone)
+                               profissao=funcionario.profissao, telefone=funcionario.telefone,
+                               username=funcionario.username, password=funcionario.password,
+                               email=funcionario.email)
 
 def editar_funcionario(funcionario, novo_funcionario):
-    funcionario.nome = novo_funcionario.nome
     funcionario.email = novo_funcionario.email
+    funcionario.username = novo_funcionario.username
+    funcionario.password = novo_funcionario.username
+    funcionario.nome = novo_funcionario.nome
     funcionario.endereco = novo_funcionario.endereco
     funcionario.data_nascimento = novo_funcionario.data_nascimento
     funcionario.cpf = novo_funcionario.cpf
@@ -84,7 +88,7 @@ def listar_protudo_id(id):
 def cadastar_produto(produto):
     Produto.objects.create(nome=produto.nome, descricao=produto.descricao, preco=produto.preco,
                            fornecedor=produto.fornecedor, codigo_fabricante=produto.codigo_fabricante,
-                           categoria=produto.categoria, peso=produto.peso)
+                           veiculo=produto.veiculo, peso=produto.peso)
 
 def editar_produto(produto, novo_produto):
     produto.nome = novo_produto.nome
@@ -92,8 +96,9 @@ def editar_produto(produto, novo_produto):
     produto.preco = novo_produto.preco
     produto.fornecedor = novo_produto.fornecedor
     produto.codigo_fabricante = novo_produto.codigo_fabricante
-    produto.categoria = novo_produto.categoria
+    produto.veiculo = novo_produto.veiculo
     produto.peso = novo_produto.peso
+    produto.fornecedor = novo_produto.fornecedor
     produto.save(force_update=True)
 
 def remover_produto(produto):

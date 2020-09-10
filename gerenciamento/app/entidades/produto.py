@@ -1,12 +1,21 @@
 class Produto():
-    def __init__(self, nome, descricao, preco, codigo_fabricante, categoria, peso):
+    def __init__(self, nome, descricao, preco, codigo_fabricante, veiculo, peso, fornecedor):
         self.__nome = nome 
-        self.__descricacao = descricacao
+        self.__descricao = descricao
         self.__preco = preco
         self.__codigo_fabricante = codigo_fabricante
-        self.__categoria = categoria
+        self.__veiculo = veiculo
         self.__peso = peso
-    
+        self.__fornecedor = fornecedor
+
+    @property
+    def fornecedor(self):
+        return self.__fornecedor
+
+    @fornecedor.setter
+    def fornecedor(self, fornecedor):
+        self.__fornecedor = fornecedor
+
     @property
     def nome(self):
         return self.__nome
@@ -16,12 +25,12 @@ class Produto():
         self.__nome = nome
 
     @property
-    def descricacao(self):
-        return self.__descricacao
+    def descricao(self):
+        return self.__descricao
 
-    @descricacao.setter
-    def descricacao(self, descricacao):
-        self.__descricacao = descricacao
+    @descricao.setter
+    def descricao(self, descricao):
+        self.__descricao= descricao
 
     @property
     def preco(self):
@@ -42,12 +51,12 @@ class Produto():
 
     
     @property
-    def categoria(self):
-        return self.__categoria
+    def veiculo(self):
+        return self.__veiculo
 
-    @categoria.setter
-    def categoria(self, categoria):
-        self.__categoria = categoria
+    @veiculo.setter
+    def veiculo(self, veiculo):
+        self.__veiculo = veiculo
 
     
     @property
@@ -57,3 +66,4 @@ class Produto():
     @peso.setter
     def peso(self, peso):
         self.__peso = peso
+

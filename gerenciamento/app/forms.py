@@ -1,11 +1,12 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import *
 from django.forms import DateInput
  
-class FuncionarioForm(forms.ModelForm):
+class FuncionarioForm(UserCreationForm):
     class Meta:
         model = Funcionario
-        fields = ['nome', 'email', 'cpf', 'data_nascimento', 'profissao', 'telefone']
+        fields = UserCreationForm.Meta.fields + ('nome', 'cpf', 'data_nascimento', 'profissao', 'telefone', 'email')
         
         widgets = {
             'data_nascimento': DateInput(
@@ -14,17 +15,18 @@ class FuncionarioForm(forms.ModelForm):
         }
 
 
-class ProdutoForm(forms.ModelForm):
-    class Meta:
-        model = Produto
-        fields = ['nome', 'descricao', 'preco', 'codigo_fabricante', 'categoria', 'peso'] 
-
-
 class FornecedorForm(forms.ModelForm):
     class Meta:
         model = Fornecedor
         fields = ['nome_fantasia', 'telefone', 'cnpj', 'email']
 
+
+class ProdutoForm(forms.ModelForm):
+    class Meta:
+        model = Produto
+        fields = ['nome', 'descricao', 'preco', 'codigo_fabricante', 'veiculo', 'peso', 'fornecedor'] 
+
+    
 
 class ClientesForm(forms.ModelForm):
     class Meta:

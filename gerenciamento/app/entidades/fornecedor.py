@@ -4,6 +4,7 @@ class Fornecedor():
         self.__telefone = telefone
         self.__cnpj = cnpj
         self.__email = email 
+        self.__endereco = endereco
     
 
     @property
