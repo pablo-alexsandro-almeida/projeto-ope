@@ -128,3 +128,24 @@ def editar_fornecedor(fornecedor, novo_fornecedor):
 
 def remover_fornecedor(fornecedor):
     fornecedor.delete()
+
+#---------------------Crud Estoque ---------------------------------------
+
+def listar_estoque():
+    return Estoque.objects.all()
+
+def listar_estoque_id(id):
+    return Estoque.objects.get(id=id)
+
+def remover_produto_estoque(produto):
+    produto.delete()
+
+def cadastrar_produto_estoque(produto):
+    Estoque.objects.create(quantidade=produto.quantidade, produto=produto.produto, 
+                           data_entrada=produto.data_entrada)
+
+def editar_produto_estoque(produto, novo_produto):
+    produto.quantidade = novo_produto.quantidade
+    produto.produto = novo_produto.produto
+    produto.data_entrada = novo_produto.data_entrada
+    produto.save(force_update=True)

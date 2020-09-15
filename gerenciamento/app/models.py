@@ -50,7 +50,7 @@ class Produto(models.Model):
     preco = models.IntegerField(null=False, blank=False)
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
     codigo_fabricante = models.CharField(max_length=100, blank=False, null=False)
-    veiculo = models.ForeignKey(Veiculo, on_delete=models.CASCADE, null=False, blank=False)
+    veiculo = models.ManyToManyField(Veiculo)
     peso = models.IntegerField(blank=False, null=False)
 
     def __str__(self):
@@ -61,14 +61,6 @@ class Estoque(models.Model):
     quantidade = models.IntegerField(blank=False, null=False)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     data_entrada = models.DateField(blank=False, null=False)
-
-    def __str__(self):
-        return self.nome_fantasia
-
-
-class Item(models.Model):
-    produto = models.ManyToManyField(Produto)
-    quatidade = models.IntegerField(blank=False, null=False)
 
     def __str__(self):
         return self.produto
@@ -97,7 +89,7 @@ class Funcionario(AbstractUser):
 
 class Venda(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=False, null=False)
-    produto = models.ManyToManyField(Item)
+    produto = models.ManyToManyField(Produto)
     desconto = models.IntegerField()
     total = models.IntegerField(blank=False, null=False)
     metodo_pagamento = models.ManyToManyField(Metodopagamento)

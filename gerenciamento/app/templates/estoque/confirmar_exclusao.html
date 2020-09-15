@@ -3,7 +3,7 @@
 {% load filtros%}
 
 {% block title %}
-Exclusão de Produto
+Exclusão de estoque
 {% endblock title %}
 
 
@@ -11,14 +11,12 @@ Exclusão de Produto
 
     <div class="box box-primary">
         <div class="box-headers with-border">
-            <h3 class="box-title"> Tem certeza que deseja excluir esse Produto ?</h3>
+            <h3 class="box-title"> Tem certeza que deseja excluir esse produto do estoque ?</h3>
         </div>
         <div class="box-body">
-            <h5>Nome: {{produto.nome}}</h5>
-            <h5>Nome Fornecedor: {{produto.fornecedor}}</h5>
-            <h5>Preço: {{produto.preco}}</h5>
-            <h5>Veiculo: {{produto.veiculo}}</h5>
-            <h5>Peso: {{produto.peso}}</h5>
+            <h5>Produto: {{estoque.produto}}</h5>
+            <h5>Quantidade: {{estoque.quantidade}}</h5>
+            <h5>Data de entrada: {{estoque.data_entrada}}</h5>
         </div>
         <form method="POST">
             {% csrf_token %}

@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import *
 from django.forms import DateInput
  
+
 class FuncionarioForm(UserCreationForm):
     class Meta:
         model = Funcionario
@@ -26,7 +27,17 @@ class ProdutoForm(forms.ModelForm):
         model = Produto
         fields = ['nome', 'descricao', 'preco', 'codigo_fabricante', 'veiculo', 'peso', 'fornecedor'] 
 
-    
+
+class EstoqueForm(forms.ModelForm): 
+    class Meta:
+        model = Estoque
+        fields = ['produto', 'quantidade', 'data_entrada']
+        widgets = {
+            'data_entrada': DateInput(
+                attrs={'type':"date"}
+            )
+        }
+
 
 class ClientesForm(forms.ModelForm):
     class Meta:

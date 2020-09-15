@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load filtros%}
+
+{% block title %}
+Estoque
+{% endblock title %}
+
+{% block content %}
+    <div class="box box-primary">
+        <div class="box-header with-broder">
+            <h3 class="box-title"> Entrada no Estoque</h3>
+        </div>
+
+        <div class="box-header">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{form_estoque.produto.errors}}
+                    <label> Produto: </label>
+                    {{form_estoque.produto | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_estoque.quantidade.erros}}
+                    <label> Quantidade: </label>
+                    {{form_estoque.quantidade | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_estoque.data_entrada.errors}}
+                    <label> Data da entrada: </label>
+                    {{form_estoque.data_entrada | addclass:'form-control'}}
+                </div>   
+                <div class="form-group">
+                    <input type="submit" class='btn btn-primary' name="Entrada">
+                </div>             
+            </form>
+        </div>
+
+    </div>
+{% endblock content %}

@@ -1,11 +1,12 @@
-from .forms import ClientesForm, EnderecoForm, FornecedorForm, FuncionarioForm, ProdutoForm
-from .entidades import cliente, endereco, fornecedor, funcionario, produto
+from .forms import *
+from .entidades import cliente, endereco, estoque, fornecedor, funcionario, produto
 from .services import bases
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+
 
 def listar_funcionarios(request):
     funcionarios = bases.listar_funcionarios()
@@ -32,6 +33,26 @@ def listar_cliente_id(request, id):
     return render(request, 'clientes/lista_cliente.html', {'cliente': cliente})
 
 
+def listar_estoque(request):
+    estoque = bases.listar_estoque()
+    return render(request, 'estoque/listar_estoque.html', {'estoques': estoque})
+
+def cadastrar_estoque(request):
+    if request.method == 'POST':
+        form_estoque = EstoqueForm(request.POST)
+        if form_estoque.is_valid():
+            quantidade = form_estoque.cleaned_data['quantidade']
+            produto = form_estoque.cleaned_data['produto']
+            data_entrada  = form_estoque.cleaned_data['data_entrada']
+            estoque_novo = estoque.Estoque(produto=produto, quantidade=quantidade, 
+                                           data_entrada=data_entrada)
+            estoque_bd = bases.cadastrar_produto_estoque(estoque_novo)
+
+            return redirect('listar_estoque')
+    else:
+        form_estoque = EstoqueForm()
+        return render(request, 'estoque/forms_estoque.html', {'form_estoque': form_estoque})
+    
 def Cadastrar_cliente(request):
     if request.method == 'POST':
         form_cliente = ClientesForm(request.POST)
@@ -135,6 +156,21 @@ def cadastrar_funcionario(request):
         form_endereco = EnderecoForm()
     return render(request, 'funcionario/forms_funcionarios.html', {'form_funcionario': form_funcionario})
 
+def editar_estoque(request, id):
+    estoque_editar = bases.listar_estoque_id(id)
+    form_estoque = EstoqueForm(request.POST or None, instance=estoque_editar)
+    if request.method == 'POST':
+        if form_estoque.is_valid():
+            quantidade = form_estoque.cleaned_data['quantidade']
+            produto = form_estoque.cleaned_data['produto']
+            data_entrada  = form_estoque.cleaned_data['data_entrada']
+            estoque_novo = estoque.Estoque(produto=produto, quantidade=quantidade, 
+                                           data_entrada=data_entrada)
+            estoque_bd = bases.editar_produto_estoque(estoque_editar, estoque_novo)
+
+            return redirect('listar_estoque')
+
+    return render(request, 'estoque/forms_estoque.html', {'form_estoque': form_estoque})
 
 def editar_produto(request, id):
     produto_editar = bases.listar_protudo_id(id)
@@ -250,6 +286,13 @@ def remover_produto(request, id):
         bases.remover_produto(produto)
         return redirect('listar_produtos')
     return render(request, 'produto/confirmar_exclusao.html', {'produto':produto})
+
+def remover_estoque(request, id):
+    estoque = bases.listar_estoque_id(id)
+    if request.method == "POST":
+        bases.remover_produto_estoque(estoque)
+        return redirect('listar_estoque')
+    return render(request, 'estoque/confirmar_exclusao.html', {'estoque':estoque})
 
 
 def remover_cliente(request, id):

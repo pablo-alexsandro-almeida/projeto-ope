@@ -20,5 +20,9 @@ urlpatterns = [
     path('cadastrar_priduto', cadastrar_produto, name='cadastrar_produto'),
     path('editar_produto/<int:id>', editar_produto, name='editar_produto'),
     path('', login_usuario, name='login'),
-    path('logout', deslogar_usuario, name='logout')
+    path('logout', deslogar_usuario, name='logout'),
+    path('listar_estoque/', listar_estoque, name='listar_estoque'),
+    path('cadastrar_estoque/', cadastrar_estoque, name='cadastrar_estoque'),
+    path('editar_estoque/<int:id>', editar_estoque, name='editar_estoque'),
+    path('remover_estoque/<int:id>', remover_estoque, name='remover_cliente')
 ]
