@@ -149,3 +149,52 @@ def editar_produto_estoque(produto, novo_produto):
     produto.produto = novo_produto.produto
     produto.data_entrada = novo_produto.data_entrada
     produto.save(force_update=True)
+
+#---------------------Crud Veiculo ---------------------------------------
+
+def listar_veiculos():
+    return Veiculo.objects.all()
+
+def listar_veiculo_id(id):
+    return Veiculo.objects.get(id=id)
+
+def remover_veiculo(veiculo):
+    veiculo.delete()
+
+def cadastrar_veiculo(veiculo):
+    Veiculo.objects.create(nome=veiculo.nome, cor=veiculo.cor,
+                           descricao=veiculo.descricao, ano=veiculo.ano,
+                           fabricante=veiculo.fabricante)
+
+def editar_veiculo(veiculo, novo_veiculo):
+    veiculo.nome = novo_veiculo.nome
+    veiculo.cor = novo_veiculo.cor 
+    veiculo.descricao = novo_veiculo.descricao
+    veiculo.ano = novo_veiculo.ano 
+    veiculo.fabricante = novo_veiculo.fabricante
+    veiculo.save(force_update=True)
+
+
+#------------------------Crud Metodo de Pagamento -----------------------------
+
+def listar_metogodepagamento():
+    return Metodopagamento.objects.all()
+
+def listar_metododepagamento_id(id):
+    return Metodopagamento.objects.get(id=id)
+
+def remover_metododepagamento(metododepagamento):
+    metododepagamento.delete()
+
+def cadastrar_metododepagamento(metododepagamento):
+    Metodopagamento.objects.create(nome=metododepagamento.nome,
+                                   descricao=metododepagamento.descricao,
+                                   parcelamento=metododepagamento.parcelamento,
+                                   bandeira=metododepagamento.bandeira)
+
+def editar_metododepagamento(metododepagamento, novo_metododepagamento):
+    metododepagamento.nome = novo_metododepagamento.nome
+    metododepagamento.descricao = novo_metododepagamento.descricao
+    metododepagamento.parcelamento = novo_metododepagamento.parcelamento
+    metododepagamento.bandeira = metododepagamento.bandeira
+    metododepagamento.save(force_update=True)

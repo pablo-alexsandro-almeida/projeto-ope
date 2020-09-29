@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load filtros%}
+
+{% block title %}
+Cadatro de Veiculo
+{% endblock title %}
+
+{% block content %}
+    <div class="box box-primary">
+        <div class="box-header with-broder">
+            <h3 class="box-title"> Cadastro de Veiculo</h3>
+        </div>
+
+        <div class="box-header">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{form_veiculo.nome.errors}}
+                    <label> Nome: </label>
+                    {{form_veiculo.nome | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_veiculo.descricao.erros}}
+                    <label> Descricao: </label>
+                    {{form_veiculo.descricao | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_veiculo.fabricante.errors}}
+                    <label> Fabricante: </label>
+                    {{form_veiculo.fabricante | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_veiculo.cor.errors}}
+                    <label> Cor: </label>
+                    {{form_veiculo.cor | addclass:'form-control'}}
+                </div>
+                <div class="form-group">
+                {{form_veiculo.ano.errors}}
+                    <label> Ano: </label>
+                    {{form_veiculo.ano | addclass:'form-control'}}
+                </div>              
+                <div class="form-group">
+                    <input type="submit" class='btn btn-primary' name="Cadastrar">
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock content %}

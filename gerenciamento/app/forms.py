@@ -3,6 +3,17 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import *
 from django.forms import DateInput
  
+ 
+class VeiculosForm(forms.ModelForm):
+    class Meta:
+        model = Veiculo
+        fields = ['nome', 'cor', 'fabricante', 'ano', 'descricao']
+        widgets = {
+            'ano': DateInput(
+                attrs={'type':"date"}
+            )
+        }
+
 
 class FuncionarioForm(UserCreationForm):
     class Meta:
@@ -55,3 +66,9 @@ class EnderecoForm(forms.ModelForm):
     class Meta:
         model = EnderecoCliente
         fields = ['rua', 'cidade', 'estado']
+
+
+class MetododepagamentoForm(forms.ModelForm):
+    class Meta:
+        model = Metodopagamento
+        fields = ['nome', 'descricao', 'parcelamento', 'bandeira']

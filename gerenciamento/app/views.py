@@ -1,5 +1,5 @@
 from .forms import *
-from .entidades import cliente, endereco, estoque, fornecedor, funcionario, produto
+from .entidades import cliente, endereco, estoque, fornecedor, funcionario, produto, veiculo, metodopagamento
 from .services import bases
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
@@ -36,6 +36,53 @@ def listar_cliente_id(request, id):
 def listar_estoque(request):
     estoque = bases.listar_estoque()
     return render(request, 'estoque/listar_estoque.html', {'estoques': estoque})
+
+
+def listar_veiculos(request):
+    veiculos = bases.listar_veiculos()
+    return render(request, 'veiculos/listar_veiculos.html', {'veiculos': veiculos})
+
+
+def listar_metododepagamento(request):
+    metododepagamento = bases.listar_metogodepagamento()
+    return render(request, 'metododepagamento/listar_metododepagamento.html', {'metododepagamentos': metododepagamento})
+
+
+def cadastrar_metododepagamento(request):
+    if request.method == 'POST':
+        form_metododepagamento = MetododepagamentoForm(request.POST)
+        if form_metododepagamento.is_valid():
+            nome = form_metododepagamento.cleaned_data['nome']
+            descricao = form_metododepagamento.cleaned_data['descricao']
+            parcelamento = form_metododepagamento.cleaned_data['parcelamento']
+            bandeira = form_metododepagamento.cleaned_data['bandeira']
+            metodo_novo = metodopagamento.Metodopagamento(nome=nome, descricao=descricao,
+                                                          parcelamento=parcelamento, bandeira=bandeira)
+            metodo_bd = bases.cadastrar_metododepagamento(metodo_novo)
+            return redirect('listar_metododepagamento')
+    else:
+        form_metododepagamento = MetododepagamentoForm()
+        return render(request, 'metododepagamento/forms_metododepagamento.html', {'form_metodo': form_metododepagamento})
+
+
+def cadastrar_veiculo(request):
+    if request.method == 'POST':
+        form_veiculo = VeiculosForm(request.POST)
+        if form_veiculo.is_valid():
+            nome = form_veiculo.cleaned_data['nome']
+            descricao = form_veiculo.cleaned_data['descricao']
+            fabricante = form_veiculo.cleaned_data['fabricante']
+            cor = form_veiculo.cleaned_data['cor']
+            ano = form_veiculo.cleaned_data['ano']
+            veiculo_novo = veiculo.Veiculo(nome=nome, descricao=descricao, fabricante=fabricante,
+                                           cor=cor, ano=ano)
+            veiculo_bd = bases.cadastrar_veiculo(veiculo_novo)
+            return redirect('listar_veiculos')
+    else:
+        form_veiculo = VeiculosForm()
+        return render(request, 'veiculos/forms_veiculo.html', {'form_veiculo': form_veiculo})
+
+
 
 def cadastrar_estoque(request):
     if request.method == 'POST':
@@ -155,6 +202,42 @@ def cadastrar_funcionario(request):
         form_funcionario = FuncionarioForm()
         form_endereco = EnderecoForm()
     return render(request, 'funcionario/forms_funcionarios.html', {'form_funcionario': form_funcionario})
+
+
+def editar_veiculo(request, id):
+    veiculo_editar = bases.listar_veiculo_id(id)
+    form_veiculo = VeiculosForm(request.POST or None, instance = veiculo_editar)
+    if request.method == "POST":
+        if form_veiculo.is_valid():
+            nome = form_veiculo.cleaned_data['nome']
+            descricao = form_veiculo.cleaned_data['descricao']
+            fabricante = form_veiculo.cleaned_data['fabricante']
+            cor = form_veiculo.cleaned_data['cor']
+            ano = form_veiculo.cleaned_data['ano']
+            veiculo_novo = veiculo.Veiculo(nome=nome, descricao=descricao, fabricante=fabricante,
+                                           cor=cor, ano=ano)
+            veiculo_bd = bases.editar_veiculo(veiculo_editar, veiculo_novo)
+            return redirect('listar_veiculos')
+
+    return render(request, 'veiculos/forms_veiculo.html', {'form_veiculo': form_veiculo})
+
+
+def editar_metododepagamento(request, id):
+    metodopagamento_editar = bases.listar_metododepagamento_id(id)
+    form_metododepagamento = MetododepagamentoForm(request.POST or None, instance=metodopagamento_editar)
+    if form_metododepagamento.is_valid():
+            nome = form_metododepagamento.cleaned_data['nome']
+            descricao = form_metododepagamento.cleaned_data['descricao']
+            parcelamento = form_metododepagamento.cleaned_data['parcelamento']
+            bandeira = form_metododepagamento.cleaned_data['bandeira']
+            metodo_novo = metodopagamento.Metodopagamento(nome=nome, descricao=descricao,
+                                                          parcelamento=parcelamento, bandeira=bandeira)
+            
+            metodo_bd = bases.editar_metododepagamento(metodopagamento_editar, metodo_novo)
+            return redirect('listar_metododepagamento')
+    
+    return render(request, 'metododepagamento/forms_metododepagamento.html', {'form_metodo': form_metododepagamento})
+
 
 def editar_estoque(request, id):
     estoque_editar = bases.listar_estoque_id(id)
@@ -295,6 +378,13 @@ def remover_estoque(request, id):
     return render(request, 'estoque/confirmar_exclusao.html', {'estoque':estoque})
 
 
+def remover_veiculo(request, id):
+    veiculo = bases.listar_veiculo_id(id)
+    if request.method == "POST":
+        bases.remover_veiculo(veiculo)
+        return redirect('listar_veiculos')
+    return render(request, 'veiculos/confirmar_exclusao.html', {'veiculo': veiculo})
+
 def remover_cliente(request, id):
     cliente = bases.listar_cliente_id(id)
     endereco = bases.listar_endereco_id(cliente.endereco.id)
@@ -304,6 +394,12 @@ def remover_cliente(request, id):
         return redirect('listar_cliente')
     return render(request, 'clientes/confirma_exclusao.html', {'cliente':cliente})
 
+def remover_metododepagamento(request, id):
+    metodo = bases.listar_metododepagamento_id(id)
+    if request.method == 'POST':
+        bases.remover_metododepagamento(metodo)
+        return redirect('listar_metododepagamento')
+    return render(request, 'metododepagamento/confirma_exclusao.html', {'metodo': metodo})
 
 def login_usuario(request):
     if request.method == 'POST':

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Listagem de Veiculos
+{% endblock title %}
+
+{% block content %}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Listagem de Veiculos</h3>
+    </div>
+
+    <div class="box-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Fabricante</th>
+                    <th>Ano</th>
+                    <th>Cor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for veiculo in veiculos %}
+                <tr>
+                    <td> {{veiculo.nome}} </a> </td>
+                    <td>{{veiculo.fabricante}}</td>
+                    <td>{{veiculo.ano}}</td>
+                    <td>{{veiculo.cor}}</td>
+                    <td>
+                        <a href="{% url 'editar_veiculo' veiculo.id %}">Editar</a>
+                        <a href="{% url 'remover_veiculo' veiculo.id %}">Remover</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <a href="{% url 'cadastrar_veiculo' %}">
+            <button class="btn btn-primary">Cadastrar Veiculo</button>
+        </a>
+    </div>
+
+</div>
+
+{% endblock content %}
+
