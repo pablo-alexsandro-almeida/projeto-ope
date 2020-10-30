@@ -3,6 +3,12 @@
 {% block nav_links %}
 
 <li>
+    <a href="{% url 'dashboard'%}">
+        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+    </a>
+</li>
+
+<li>
     <a href="{% url 'listar_cliente' %}">
         <i class="fa fa-user"></i> <span>Cliente</span>
     </a>
@@ -38,6 +44,11 @@
 <li>
     <a href="{% url 'listar_metododepagamento' %}">
         <i class="fa  fa-credit-card"></i> <span>Metodo de Pagamento</span>
+    </a>
+</li>
+<li>
+    <a href="{% url 'listar_venda' %}">
+        <i class="fa fa-money"></i> <span>Venda</span>
     </a>
 </li>
 {% endblock nav_links %}

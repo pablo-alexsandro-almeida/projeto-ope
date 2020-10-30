@@ -66,30 +66,39 @@
               <!-- The timeline -->
               <ul class="timeline timeline-inverse">
                 <!-- timeline time label -->
-                <li class="time-label">
-                      <span class="bg-red">
-                        10 Feb. 2014
-                      </span>
-                </li>
-                <!-- /.timeline-label -->
+
+                <!-- Inicio -->
+                {% for compras in historico%}
+                  <li class="time-label">
+                        <span class="bg-red">
+                          {{compras.data_venda}}
+                        </span>
+                  </li>
+                  <!-- /.timeline-label -->
+                  
+                  <!-- timeline item -->
+                  <li>
+                    <i class="fa fa-user bg-aqua"></i>
+
+                    <div class="timeline-item">
+                      <span class="time">{{compras.total}}</span>
+
+                      <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
+                      </h3>
+                    </div>
+                  </li>
+                  {% endfor %}
+                <!-- Fim -->
                 
-                <!-- timeline item -->
-                <li>
-                  <i class="fa fa-user bg-aqua"></i>
-
-                  <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-
-                    <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-                    </h3>
-                  </div>
-                </li>
                 
                 <li>
                   <i class="fa fa-clock-o bg-gray"></i>
                 </li>
               </ul>
             </div>
+
+
+            
 
           <!-- /.tab-content -->
         </div>

@@ -1,10 +1,9 @@
-class Estoque():
-    def __init__(self, produto, quantidade, data_entrada):
+class Envolve():
+    def __init__(self, produto, quantidade, venda):
         self.__produto = produto
         self.__quantidade = quantidade
-        self.__data_entrada = data_entrada
-        
-
+        self.__venda = venda
+    
     @property
     def produto(self):
         return self.__produto
@@ -12,7 +11,6 @@ class Estoque():
     @produto.setter
     def produto(self, produto):
         self.__produto = produto
-
 
     @property
     def quantidade(self):
@@ -24,9 +22,9 @@ class Estoque():
 
 
     @property
-    def data_entrada(self):
-        return self.__data_entrada
+    def venda(self):
+        return self.__venda
 
-    @data_entrada.setter
-    def data_entrada(self, data_entrada):
-        self.__data_entrada = data_entrada
+    @venda.setter
+    def venda(self, venda):
+        self.__venda = venda

@@ -131,6 +131,9 @@ def remover_fornecedor(fornecedor):
 
 #---------------------Crud Estoque ---------------------------------------
 
+def listar_estoque_produto(produto_id):
+    return Estoque.objecst.get(produto = produto_id)
+
 def listar_estoque():
     return Estoque.objects.all()
 
@@ -174,7 +177,7 @@ def editar_veiculo(veiculo, novo_veiculo):
     veiculo.fabricante = novo_veiculo.fabricante
     veiculo.save(force_update=True)
 
-
+ 
 #------------------------Crud Metodo de Pagamento -----------------------------
 
 def listar_metogodepagamento():
@@ -198,3 +201,49 @@ def editar_metododepagamento(metododepagamento, novo_metododepagamento):
     metododepagamento.parcelamento = novo_metododepagamento.parcelamento
     metododepagamento.bandeira = metododepagamento.bandeira
     metododepagamento.save(force_update=True)
+
+
+#------------------------- Crid Vendas ------------------------------------------
+
+def listar_vendas():
+    return Venda.objects.all()
+
+def listar_venda_id(id):
+    return Venda.objects.get(id=id)
+
+def cadastrar_venda(venda):
+    Venda.objects.create(cliente=venda.cliente,
+                         desconto=venda.desconto, total=venda.total,
+                         metodo_pagamento=venda.metodo_pagamento,
+                         vendedor=venda.vendedor, data_venda=venda.data_venda)
+    return Venda
+    
+
+#--------------------- Dash info -------------------------------
+
+def produtos_vendidos():
+    return Venda.objects.all()
+
+def estoque():
+    todo = Estoque.objects.all()
+    soma_estoque = 0
+    for qtd in todo:
+        soma_estoque = soma_estoque+qtd.quantidade
+    return soma_estoque
+
+def clientes():
+    return len(Cliente.objects.all())
+
+#------------------------ Saida de produto -------------------------
+
+def saida_produto(envolve):
+    Envolve.objects.create(Produto=envolve.produto,
+                           quantidade=envolve.quantidade,
+                            venda=envolve.venda)
+def listar_envolve(venda_id):
+    Envolve.objects.filter(venda=venda_id)
+
+#------------------------------ variados ---------------------------
+
+def historio_vendas(cliente_id):
+    return Venda.objects.filter(cliente = cliente_id)

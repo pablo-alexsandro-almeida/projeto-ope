@@ -3,7 +3,30 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import *
 from django.forms import DateInput
  
- 
+
+class SaidaProdutoForm(forms.ModelForm):
+    class Meta:
+        model = Envolve
+        fields = "__all__"
+
+class ProdutoVendaForm(forms.ModelForm):
+    quantidade = forms.IntegerField()
+    nome = forms.ModelChoiceField(queryset=Produto.objects.all())
+    class Meta:
+        model = Produto
+        fields = ['nome', 'quantidade']
+
+
+class VendaForm(forms.ModelForm):
+    class Meta:
+        model = Venda
+        fields = ['cliente', 'desconto', 'total', 'metodo_pagamento', 'vendedor', 'data_venda']
+        widgets = {
+            'data_venda': DateInput(
+                attrs={'type':"date"}
+            )
+        }
+
 class VeiculosForm(forms.ModelForm):
     class Meta:
         model = Veiculo

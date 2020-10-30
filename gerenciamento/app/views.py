@@ -1,11 +1,28 @@
 from .forms import *
-from .entidades import cliente, endereco, estoque, fornecedor, funcionario, produto, veiculo, metodopagamento
+from .entidades import cliente, endereco, estoque, fornecedor, funcionario, produto, veiculo, metodopagamento, venda, envolve
 from .services import bases
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.sessions.backends.db import SessionStore
+
+def dashboard(request):
+    produtos = bases.produtos_vendidos()
+    estoque = bases.estoque()
+    cliente = bases.clientes() 
+
+    dados = {'produtos_vendidos': len(produtos), 
+             'estoque':estoque,
+             'clientes': cliente}
+
+    return render(request, 'dashboard/dashboard.html', dados)
+
+
+def listar_venda(request):
+    vendas = bases.listar_vendas()
+    return render(request, 'venda/lista_venda.html', {'vendas': vendas})
 
 
 def listar_funcionarios(request):
@@ -29,8 +46,9 @@ def listar_clientes(request):
 
 
 def listar_cliente_id(request, id):
-    cliente = bases.listar_cliente_id(id=id)
-    return render(request, 'clientes/lista_cliente.html', {'cliente': cliente})
+    cliente = bases.listar_cliente_id(id)
+    compras = bases.historio_vendas(id)
+    return render(request, 'clientes/lista_cliente.html', {'cliente': cliente, 'historico': compras})
 
 
 def listar_estoque(request):
@@ -83,7 +101,6 @@ def cadastrar_veiculo(request):
         return render(request, 'veiculos/forms_veiculo.html', {'form_veiculo': form_veiculo})
 
 
-
 def cadastrar_estoque(request):
     if request.method == 'POST':
         form_estoque = EstoqueForm(request.POST)
@@ -99,7 +116,38 @@ def cadastrar_estoque(request):
     else:
         form_estoque = EstoqueForm()
         return render(request, 'estoque/forms_estoque.html', {'form_estoque': form_estoque})
-    
+
+def cadastrar_venda(request):
+    prod = []
+    form_venda = VendaForm(request.POST)
+    if request.method == "POST" and 'submit-general-geral' in request.POST:
+        if form_venda.is_valid():
+            cliente = form_venda.cleaned_data['cliente']
+            desconto = form_venda.cleaned_data['desconto']
+            total = form_venda.cleaned_data['total']
+            metodo_pagamento = form_venda.cleaned_data['metodo_pagamento']
+            vendedor = form_venda.cleaned_data['vendedor']
+            data_venda = form_venda.cleaned_data['data_venda']
+            nova_venda = venda.Venda(cliente=cliente,
+                                     desconto=desconto, total=total,
+                                     metodo_pagamento=metodo_pagamento,
+                                     vendedor=vendedor, data_venda=data_venda)
+            n_venda = bases.cadastrar_venda(nova_venda)
+            return redirect(f'cadastro_produto/{n_venda.id}')    
+    else:
+        form_produto = ProdutoVendaForm()
+        form_venda = VendaForm()
+        context = {'form_venda': form_venda, 'form_produto':form_produto}
+        return render(request, 'venda/forms_vendas.html', context)
+ 
+def cadastro_produto(request, id):
+    form_produto = ProdutoVendaForm(request.POST)
+    if request.method == "POST":
+        pass
+    else:
+        form_produto = ProdutoVendaForm()
+        return render(request, 'venda/forms_produtos.html', {'form_produto': form_produto})
+
 def Cadastrar_cliente(request):
     if request.method == 'POST':
         form_cliente = ClientesForm(request.POST)
@@ -410,7 +458,7 @@ def login_usuario(request):
             usuario = authenticate(request, username=username, password=password)
             if usuario is not None:
                 login(request, usuario)
-                return redirect('listar_cliente')
+                return redirect('dashboard')
             else:
                 messages.error(request, "Credencias informadas estão erradas")
                 return redirect('login')

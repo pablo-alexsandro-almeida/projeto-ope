@@ -32,5 +32,9 @@ urlpatterns = [
     path('listar_metododepagamento', listar_metododepagamento, name='listar_metododepagamento'),
     path('cadastrar_metododepagamento', cadastrar_metododepagamento, name='cadastrar_metododepagamento'),
     path('editar_metododepagamento/<int:id>', editar_metododepagamento, name='editar_metododepagamento'),
-    path('remover_metododepagamento/<int:id>', remover_metododepagamento, name='remover_metododepagamento')
+    path('remover_metododepagamento/<int:id>', remover_metododepagamento, name='remover_metododepagamento'),
+    path('lista_venda', listar_venda, name='listar_venda'),
+    path('cadastrar_venda', cadastrar_venda, name='cadastrar_venda'),
+    path('dashboard', dashboard, name='dashboard'),
+    path('cadastro_produto/<int:id>', cadastro_produto, name='cadastro_produto')
 ]
