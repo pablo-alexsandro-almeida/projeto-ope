@@ -7,15 +7,22 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.sessions.backends.db import SessionStore
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from django.http import HttpResponse
+import tempfile
+
 
 def dashboard(request):
     produtos = bases.produtos_vendidos()
     estoque = bases.estoque()
     cliente = bases.clientes() 
+    novos_clientes = bases.novos_clientes()
 
     dados = {'produtos_vendidos': len(produtos), 
              'estoque':estoque,
-             'clientes': cliente}
+             'clientes': cliente,
+             'novos': len(novos_clientes)}
 
     return render(request, 'dashboard/dashboard.html', dados)
 
@@ -44,10 +51,15 @@ def listar_clientes(request):
     clientes = bases.listar_cliente()
     return render(request, 'clientes/lista_clientes.html', {'clientes': clientes})
 
+def lista_fornecedor_id(request, id):
+    entrada = bases.historico_entrada(id)
+    fornecedor = bases.listar_fornecedor_id(id)
+    return render(request, 'fornecedor/lista_fornecedor.html', {'fornecedor': fornecedor, 'historico': entrada})
+
 
 def listar_cliente_id(request, id):
     cliente = bases.listar_cliente_id(id)
-    compras = bases.historio_vendas(id)
+    compras = bases.historio_vendas(id) 
     return render(request, 'clientes/lista_cliente.html', {'cliente': cliente, 'historico': compras})
 
 
@@ -133,7 +145,7 @@ def cadastrar_venda(request):
                                      metodo_pagamento=metodo_pagamento,
                                      vendedor=vendedor, data_venda=data_venda)
             n_venda = bases.cadastrar_venda(nova_venda)
-            return redirect(f'cadastro_produto/{n_venda.id}')    
+            return redirect('listar_venda')    
     else:
         form_produto = ProdutoVendaForm()
         form_venda = VendaForm()
@@ -142,9 +154,9 @@ def cadastrar_venda(request):
  
 def cadastro_produto(request, id):
     form_produto = ProdutoVendaForm(request.POST)
-    if request.method == "POST":
+    if request.method == "POST" and 'submit-general-add' in request.POST:
         pass
-    else:
+    else: 
         form_produto = ProdutoVendaForm()
         return render(request, 'venda/forms_produtos.html', {'form_produto': form_produto})
 
@@ -470,3 +482,21 @@ def login_usuario(request):
 def deslogar_usuario(request):
     logout(request)
     return redirect('login')
+
+
+def gerar_pdf_Venda(request, id):
+    venda = bases.listar_venda_id(id)
+    html_string = render_to_string('dashboard/pdf.html', {'venda': venda})
+    html = HTML(string=html_string)
+    resultado_pdf = html.write_pdf()
+
+    resposta = HttpResponse(content_type='application/pdf;')
+    resposta['Content-Disposition'] = 'inline; filename=lista_pedidos.pdf'
+    resposta['Content-Transfer-Enconding'] = 'binary'
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(resultado_pdf)
+        output.flush()
+        output = open(output.name, 'rb')
+        resposta.write(output.read())
+
+    return resposta

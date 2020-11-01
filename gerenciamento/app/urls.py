@@ -36,5 +36,7 @@ urlpatterns = [
     path('lista_venda', listar_venda, name='listar_venda'),
     path('cadastrar_venda', cadastrar_venda, name='cadastrar_venda'),
     path('dashboard', dashboard, name='dashboard'),
-    path('cadastro_produto/<int:id>', cadastro_produto, name='cadastro_produto')
+    path('cadastro_produto/<int:id>', cadastro_produto, name='cadastro_produto'),
+    path('listar_fornecedor_id/<int:id>', lista_fornecedor_id, name='listar_fornecedor_id'),
+    path('gerar_pdf_Venda/<int:id>', gerar_pdf_Venda, name='gerar_pdf_Venda')
 ]

@@ -26,7 +26,7 @@ Listagem de clientes
 
                 {% for fornecedor in fornecedores %}
                 <tr>
-                    <td> <a href="#">{{fornecedor.nome_fantasia}} </a> </td>
+                    <td> <a href="{% url 'listar_fornecedor_id' fornecedor.id %}">{{fornecedor.nome_fantasia}} </a> </td>
                     <td>{{fornecedor.cnpj}}</td>
                     <td>{{fornecedor.email}}</td>
                     <td>{{fornecedor.telefone}}</td>                  

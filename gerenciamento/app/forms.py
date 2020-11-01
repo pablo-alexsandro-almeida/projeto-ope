@@ -11,10 +11,10 @@ class SaidaProdutoForm(forms.ModelForm):
 
 class ProdutoVendaForm(forms.ModelForm):
     quantidade = forms.IntegerField()
-    nome = forms.ModelChoiceField(queryset=Produto.objects.all())
+    produto = forms.ModelChoiceField(queryset=Produto.objects.all())
     class Meta:
         model = Produto
-        fields = ['nome', 'quantidade']
+        fields = ['produto', 'quantidade']
 
 
 class VendaForm(forms.ModelForm):
@@ -31,11 +31,6 @@ class VeiculosForm(forms.ModelForm):
     class Meta:
         model = Veiculo
         fields = ['nome', 'cor', 'fabricante', 'ano', 'descricao']
-        widgets = {
-            'ano': DateInput(
-                attrs={'type':"date"}
-            )
-        }
 
 
 class FuncionarioForm(UserCreationForm):

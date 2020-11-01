@@ -15,16 +15,16 @@
         <div class="box box-primary">
           <div class="box-body box-profile">
 
-            <h3 class="profile-username text-center">{{cliente.nome}}</h3>
+            <h3 class="profile-username text-center">{{fornecedor.nome_fantasia}}</h3>
 
-            <p class="text-muted text-center">{{cliente.profissao}}</p>
+            <p class="text-muted text-center">{{fornecedor.cnpj}}</p>
 
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
-                <b>Nascimento</b> <a class="pull-right">{{cliente.data_nascimento}}</a>
+                <b>Email</b> <a class="pull-right">{{fornecedor.email}}</a>
               </li>
               <li class="list-group-item">
-                <b>CPF</b> <a class="pull-right">{{cliente.cpf}}</a>
+                <b>Contato</b> <a class="pull-right">{{fornecedor.telefone}}</a>
               </li>
               
             </ul>            
@@ -40,7 +40,7 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <strong><i class="fa fa-cubes"></i>Frequencia de compra</strong>
+            <strong><i class="fa fa-cubes"></i>Frequencia de entradas</strong>
 
             <p class="text-muted">
               Lista de produtos
@@ -68,7 +68,7 @@
                 <!-- timeline time label -->
 
                 <!-- Inicio -->
-                {% for compras in historico%}
+                {% for compras in historico %}
                   <li class="time-label">
                         <span class="bg-red">
                           {{compras.data_venda}}
@@ -83,7 +83,7 @@
                     <div class="timeline-item">
                       <span class="time">{{compras.total}}</span>
 
-                      <h3 class="timeline-header no-border"><a href="#">Ordem: {{compras.id}}</a>, Vendedor: {{compras.vendedor}}
+                      <h3 class="timeline-header no-border"><a>Codigo Fabricante: {{compras.codigo_fabricante}}</a>, Produto: {{compras.nome}}
                       </h3>
                     </div>
                   </li>

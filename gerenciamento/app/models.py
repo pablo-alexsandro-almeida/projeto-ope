@@ -18,6 +18,7 @@ class Cliente(models.Model):
     cpf = models.CharField(max_length=14, null=False, blank=False)
     data_nascimento = models.DateField(blank=False, null=False)
     profissao = models.CharField(max_length=25, null=False, blank=False)
+    data_entrada = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return str(self.nome)
@@ -37,7 +38,7 @@ class Fornecedor(models.Model):
 class Veiculo(models.Model):
     nome = models.CharField(max_length=50, null=False, blank=False)
     descricao = models.CharField(max_length=100, null=False, blank=False)
-    ano = models.DateField(null=False, blank=False)
+    ano = models.IntegerField(blank=False, null=False)
     cor = models.CharField(max_length=10, null=False, blank=False)
     fabricante = models.CharField(max_length=50, null=False, blank=False)
 
@@ -103,3 +104,4 @@ class Envolve(models.Model):
     quantidade = models.IntegerField()
     def __str__(self):
         return self.id
+

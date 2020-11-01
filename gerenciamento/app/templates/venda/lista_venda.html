@@ -33,7 +33,7 @@ Listagem de Vendas
                     <td>{{venda.total}}</td>
                     <td>{{venda.vendedor}}</td>
                     <td>{{venda.data_venda}}</td>
-                    <td>Visualizar</td>
+                    <td> <a href="{% url 'gerar_pdf_Venda' venda.id %}">Visualizar </a></td>
                 
                 </tr>
                 {% endfor %}

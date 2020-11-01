@@ -1,11 +1,14 @@
 from ..models import *
-
+import datetime
 
 #---------------------Crud Clientes ---------------------------------------
 
 def cadastrar_cliente(cliente):
+    x = datetime.datetime.now()
+    date = str(x.year)+"-"+str(x.month)+"-"+str(x.day)
     Cliente.objects.create(nome=cliente.nome, email=cliente.email, endereco=cliente.endereco, cpf=cliente.cpf,
-                           data_nascimento=cliente.data_nascimento, profissao=cliente.profissao)
+                           data_nascimento=cliente.data_nascimento, profissao=cliente.profissao, 
+                           data_entrada=date)
 
 def editar_cliente(cliente, novo_cliente):
     cliente.nome = novo_cliente.nome
@@ -234,6 +237,12 @@ def estoque():
 def clientes():
     return len(Cliente.objects.all())
 
+def novos_clientes():
+    x = datetime.datetime.now()
+    inicio = str(x.year)+"-"+str(x.month)+"-"+str(1)
+    final = str(x.year)+"-"+str(x.month)+"-"+str(x.day)
+    return Cliente.objects.filter(data_entrada__range=[inicio, final])
+
 #------------------------ Saida de produto -------------------------
 
 def saida_produto(envolve):
@@ -247,3 +256,7 @@ def listar_envolve(venda_id):
 
 def historio_vendas(cliente_id):
     return Venda.objects.filter(cliente = cliente_id)
+
+def historico_entrada(id):
+    return Produto.objects.filter(fornecedor = id)
+
