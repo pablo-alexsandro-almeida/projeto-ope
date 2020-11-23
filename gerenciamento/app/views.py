@@ -11,8 +11,9 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from django.http import HttpResponse
 import tempfile
+from django.contrib.auth.decorators import login_required
 
-
+@login_required()
 def dashboard(request):
     produtos = bases.produtos_vendidos()
     estoque = bases.estoque()
@@ -27,57 +28,68 @@ def dashboard(request):
     return render(request, 'dashboard/dashboard.html', dados)
 
 
+@login_required()
 def listar_venda(request):
     vendas = bases.listar_vendas()
     return render(request, 'venda/lista_venda.html', {'vendas': vendas})
 
 
+@login_required()
 def listar_funcionarios(request):
     funcionarios = bases.listar_funcionarios()
     return render(request, 'funcionario/lista_funcionarios.html', {'funcionarios': funcionarios})
 
-
+@login_required()
 def listar_produtos(request):
     produtos = bases.listar_produtos()
     return render(request, 'produto/lista_produtos.html', {'produtos':produtos})
 
 
+@login_required()
 def listar_fornecedores(request):
     fornecedores = bases.listar_fornecedores()
     return render(request, 'fornecedor/listar_fornecedores.html', {'fornecedores':fornecedores})
 
 
+@login_required()
 def listar_clientes(request):
     clientes = bases.listar_cliente()
     return render(request, 'clientes/lista_clientes.html', {'clientes': clientes})
 
+
+@login_required()
 def lista_fornecedor_id(request, id):
     entrada = bases.historico_entrada(id)
     fornecedor = bases.listar_fornecedor_id(id)
     return render(request, 'fornecedor/lista_fornecedor.html', {'fornecedor': fornecedor, 'historico': entrada})
 
 
+@login_required()
 def listar_cliente_id(request, id):
     cliente = bases.listar_cliente_id(id)
     compras = bases.historio_vendas(id) 
     return render(request, 'clientes/lista_cliente.html', {'cliente': cliente, 'historico': compras})
 
 
+@login_required()
 def listar_estoque(request):
     estoque = bases.listar_estoque()
     return render(request, 'estoque/listar_estoque.html', {'estoques': estoque})
 
 
+@login_required()
 def listar_veiculos(request):
     veiculos = bases.listar_veiculos()
     return render(request, 'veiculos/listar_veiculos.html', {'veiculos': veiculos})
 
 
+@login_required()
 def listar_metododepagamento(request):
     metododepagamento = bases.listar_metogodepagamento()
     return render(request, 'metododepagamento/listar_metododepagamento.html', {'metododepagamentos': metododepagamento})
 
 
+@login_required()
 def cadastrar_metododepagamento(request):
     if request.method == 'POST':
         form_metododepagamento = MetododepagamentoForm(request.POST)
@@ -95,6 +107,7 @@ def cadastrar_metododepagamento(request):
         return render(request, 'metododepagamento/forms_metododepagamento.html', {'form_metodo': form_metododepagamento})
 
 
+@login_required()
 def cadastrar_veiculo(request):
     if request.method == 'POST':
         form_veiculo = VeiculosForm(request.POST)
@@ -113,6 +126,7 @@ def cadastrar_veiculo(request):
         return render(request, 'veiculos/forms_veiculo.html', {'form_veiculo': form_veiculo})
 
 
+@login_required()
 def cadastrar_estoque(request):
     if request.method == 'POST':
         form_estoque = EstoqueForm(request.POST)
@@ -129,6 +143,8 @@ def cadastrar_estoque(request):
         form_estoque = EstoqueForm()
         return render(request, 'estoque/forms_estoque.html', {'form_estoque': form_estoque})
 
+
+@login_required()
 def cadastrar_venda(request):
     prod = []
     form_venda = VendaForm(request.POST)
@@ -152,6 +168,8 @@ def cadastrar_venda(request):
         context = {'form_venda': form_venda, 'form_produto':form_produto}
         return render(request, 'venda/forms_vendas.html', context)
  
+
+@login_required()
 def cadastro_produto(request, id):
     form_produto = ProdutoVendaForm(request.POST)
     if request.method == "POST" and 'submit-general-add' in request.POST:
@@ -160,6 +178,8 @@ def cadastro_produto(request, id):
         form_produto = ProdutoVendaForm()
         return render(request, 'venda/forms_produtos.html', {'form_produto': form_produto})
 
+
+@login_required()
 def Cadastrar_cliente(request):
     if request.method == 'POST':
         form_cliente = ClientesForm(request.POST)
@@ -190,7 +210,7 @@ def Cadastrar_cliente(request):
     return render(request, 'clientes/forms_clientes.html', {'form_cliente': form_cliente, 'form_endereco': form_endereco})
 
 
-
+@login_required()
 def cadastrar_fornecedor(request):
     if request.method == 'POST':
         form_fornecedor = FornecedorForm(request.POST)
@@ -217,6 +237,7 @@ def cadastrar_fornecedor(request):
     return render(request, 'fornecedor/forms_fornecedor.html', {'form_fornecedor': form_fornecedor, 'form_endereco': form_endereco})
 
 
+@login_required()
 def cadastrar_produto(request):
     if request.method == 'POST':
         form_produto = ProdutoForm(request.POST)        
@@ -238,6 +259,7 @@ def cadastrar_produto(request):
     return render(request, 'produto/forms_produtos.html', {'form_produto': form_produto})
 
 
+@login_required()
 def cadastrar_funcionario(request):
     if request.method == 'POST':
         form_funcionario = FuncionarioForm(request.POST)
@@ -264,6 +286,7 @@ def cadastrar_funcionario(request):
     return render(request, 'funcionario/forms_funcionarios.html', {'form_funcionario': form_funcionario})
 
 
+@login_required()
 def editar_veiculo(request, id):
     veiculo_editar = bases.listar_veiculo_id(id)
     form_veiculo = VeiculosForm(request.POST or None, instance = veiculo_editar)
@@ -282,6 +305,7 @@ def editar_veiculo(request, id):
     return render(request, 'veiculos/forms_veiculo.html', {'form_veiculo': form_veiculo})
 
 
+@login_required()
 def editar_metododepagamento(request, id):
     metodopagamento_editar = bases.listar_metododepagamento_id(id)
     form_metododepagamento = MetododepagamentoForm(request.POST or None, instance=metodopagamento_editar)
@@ -299,6 +323,7 @@ def editar_metododepagamento(request, id):
     return render(request, 'metododepagamento/forms_metododepagamento.html', {'form_metodo': form_metododepagamento})
 
 
+@login_required()
 def editar_estoque(request, id):
     estoque_editar = bases.listar_estoque_id(id)
     form_estoque = EstoqueForm(request.POST or None, instance=estoque_editar)
@@ -315,6 +340,8 @@ def editar_estoque(request, id):
 
     return render(request, 'estoque/forms_estoque.html', {'form_estoque': form_estoque})
 
+
+@login_required()
 def editar_produto(request, id):
     produto_editar = bases.listar_protudo_id(id)
     form_produto = ProdutoForm(request.POST or None, instance=produto_editar)
@@ -337,6 +364,7 @@ def editar_produto(request, id):
     return render(request, 'produto/forms_produtos.html', {'form_produto': form_produto})
 
 
+@login_required()
 def editar_funcionario(request, id):
     funcionario_editar = bases.listar_funcionario_id(id)
     funcionario_editar.data_nascimento = funcionario_editar.data_nascimento.strftime('%Y-%m-%d') #Conversão da data
@@ -357,6 +385,8 @@ def editar_funcionario(request, id):
 
     return render(request, 'funcionario/forms_funcionarios.html', {'form_funcionario': form_funcionario})
 
+
+@login_required()
 def editar_fornecedor(request, id):
     fornecedor_editar = bases.listar_fornecedor_id(id)
     form_fornecedor = FornecedorForm(request.POST or None, instance=fornecedor_editar)
@@ -380,6 +410,8 @@ def editar_fornecedor(request, id):
     return render(request, 'fornecedor/forms_fornecedor.html', {'form_fornecedor': form_fornecedor, 'form_endereco': form_endereco})
 
 
+
+@login_required()
 def editar_cliente(request, id):
     cliente_editar = bases.listar_cliente_id(id)
     cliente_editar.data_nascimento = cliente_editar.data_nascimento.strftime('%Y-%m-%d') #Conversão da data
@@ -405,6 +437,8 @@ def editar_cliente(request, id):
             return redirect('listar_cliente')
     return render(request, 'clientes/forms_clientes.html', {'form_cliente': form_cliente, 'form_endereco': form_endereco})
 
+
+@login_required()
 def remover_fornecedor(request, id):
     fornecedor = bases.listar_fornecedor_id(id)
     endereco = bases.listar_endereco_id(fornecedor.endereco.id)
@@ -415,6 +449,8 @@ def remover_fornecedor(request, id):
     return render(request, 'fornecedor/confirmar_exclusao.html', {'fornecedor': fornecedor})
 
 
+
+@login_required()
 def remover_funcionario(request, id):
     funcionario = bases.listar_funcionario_id(id)
     if request.method == 'POST':
@@ -423,6 +459,7 @@ def remover_funcionario(request, id):
     return render(request, 'funcionario/confirmar_exclusao.html', {'funcionario': funcionario})
 
 
+@login_required()
 def remover_produto(request, id):
     produto = bases.listar_protudo_id(id)
     if request.method == "POST":
@@ -430,6 +467,8 @@ def remover_produto(request, id):
         return redirect('listar_produtos')
     return render(request, 'produto/confirmar_exclusao.html', {'produto':produto})
 
+
+@login_required()
 def remover_estoque(request, id):
     estoque = bases.listar_estoque_id(id)
     if request.method == "POST":
@@ -438,6 +477,7 @@ def remover_estoque(request, id):
     return render(request, 'estoque/confirmar_exclusao.html', {'estoque':estoque})
 
 
+@login_required()
 def remover_veiculo(request, id):
     veiculo = bases.listar_veiculo_id(id)
     if request.method == "POST":
@@ -445,6 +485,8 @@ def remover_veiculo(request, id):
         return redirect('listar_veiculos')
     return render(request, 'veiculos/confirmar_exclusao.html', {'veiculo': veiculo})
 
+
+@login_required()
 def remover_cliente(request, id):
     cliente = bases.listar_cliente_id(id)
     endereco = bases.listar_endereco_id(cliente.endereco.id)
@@ -454,12 +496,16 @@ def remover_cliente(request, id):
         return redirect('listar_cliente')
     return render(request, 'clientes/confirma_exclusao.html', {'cliente':cliente})
 
+
+@login_required()
 def remover_metododepagamento(request, id):
     metodo = bases.listar_metododepagamento_id(id)
     if request.method == 'POST':
         bases.remover_metododepagamento(metodo)
         return redirect('listar_metododepagamento')
     return render(request, 'metododepagamento/confirma_exclusao.html', {'metodo': metodo})
+
+
 
 def login_usuario(request):
     if request.method == 'POST':
@@ -479,11 +525,13 @@ def login_usuario(request):
         return render(request, 'autenticacao/login.html', {'form_login':form_login})
 
 
+@login_required()
 def deslogar_usuario(request):
     logout(request)
     return redirect('login')
 
 
+@login_required()
 def gerar_pdf_Venda(request, id):
     venda = bases.listar_venda_id(id)
     html_string = render_to_string('dashboard/pdf.html', {'venda': venda})
