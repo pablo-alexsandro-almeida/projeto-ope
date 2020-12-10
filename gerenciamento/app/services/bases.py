@@ -13,7 +13,6 @@ def cadastrar_cliente(cliente):
 def editar_cliente(cliente, novo_cliente):
     cliente.nome = novo_cliente.nome
     cliente.email = novo_cliente.email
-    cliente.endereco = novo_cliente.endereco
     cliente.cpf = novo_cliente.cpf
     cliente.data_nascimento = novo_cliente.data_nascimento
     cliente.profissao = novo_cliente.profissao

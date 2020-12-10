@@ -421,13 +421,14 @@ def editar_funcionario(request, id):
         nome = form_funcionario.cleaned_data['nome']
         cpf = form_funcionario.cleaned_data['cpf']
         data_nascimento = form_funcionario.cleaned_data['data_nascimento']
+        email = form_funcionario.cleaned_data['email']
         profissao = form_funcionario.cleaned_data['profissao']
         telefone = form_funcionario.cleaned_data['telefone']
         username = form_funcionario.cleaned_data['username']
         password = make_password(form_funcionario.cleaned_data['password1'])
         funcionario_novo = funcionario.Funcionario(nome=nome, cpf=cpf, username=username, password=password, 
                                             data_nascimento=data_nascimento, profissao=profissao, 
-                                            telefone=telefone)
+                                            telefone=telefone, email=email)
         bases.editar_cliente(funcionario_editar, funcionario_novo)
         return redirect('listar_funcionarios')
 

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
 from django.forms import DateInput
+from django.core.validators import RegexValidator
  
 
 class SaidaProdutoForm(forms.ModelForm):
@@ -34,6 +35,7 @@ class VeiculosForm(forms.ModelForm):
 
 
 class FuncionarioForm(UserCreationForm):
+    telefone = forms.CharField(min_length=7, validators=[RegexValidator('^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$', message="Telefone invalido")])
     class Meta:
         model = Funcionario
         fields = UserCreationForm.Meta.fields + ('nome', 'cpf', 'data_nascimento', 'profissao', 'telefone', 'email')
