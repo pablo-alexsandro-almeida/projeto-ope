@@ -107,6 +107,9 @@ def editar_produto(produto, novo_produto):
 def remover_produto(produto):
     produto.delete()
 
+def get_product(produto):
+    return Produto.objects.get(nome=produto['nome'])
+
 
 #---------------------Crud Fornecedor ---------------------------------------
 
@@ -215,11 +218,11 @@ def listar_venda_id(id):
     return Venda.objects.get(id=id)
 
 def cadastrar_venda(venda):
-    Venda.objects.create(cliente=venda.cliente,
+    venda = Venda.objects.create(cliente=venda.cliente,
                          desconto=venda.desconto, total=venda.total,
                          metodo_pagamento=venda.metodo_pagamento,
                          vendedor=venda.vendedor, data_venda=venda.data_venda)
-    return Venda
+    return venda
     
 
 #--------------------- Dash info -------------------------------
@@ -246,11 +249,15 @@ def novos_clientes():
 #------------------------ Saida de produto -------------------------
 
 def saida_produto(envolve):
-    Envolve.objects.create(Produto=envolve.produto,
+    Envolve.objects.create(produto=envolve.produto,
                            quantidade=envolve.quantidade,
                             venda=envolve.venda)
+    prod = Estoque.objects.get(produto=envolve.produto)
+    prod.quantidade = prod.quantidade-envolve.quantidade
+    prod.save()
+
 def listar_envolve(venda_id):
-    Envolve.objects.filter(venda=venda_id)
+    return Envolve.objects.filter(venda=venda_id)
 
 #------------------------------ variados ---------------------------
 
@@ -259,4 +266,26 @@ def historio_vendas(cliente_id):
 
 def historico_entrada(id):
     return Produto.objects.filter(fornecedor = id)
+
+def top_5():
+    product = Produto.objects.all()
+    ranq = []
+
+    for produtos in product:
+        vendas = Envolve.objects.filter(produto=produtos)
+        soma = 0
+        #preco = 0
+        for qtd in vendas:
+            soma += qtd.quantidade
+            #preco += Venda.objects.get(id=qtd.venda).total
+        ranq.append([produtos.nome, soma])
+
+    #final = ranq.sort()
+    
+    return ranq
+    
+
+
+
+
 

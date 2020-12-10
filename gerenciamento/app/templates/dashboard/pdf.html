@@ -1,41 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Relatório de pedidos</title>
+	<meta charset="UTF-8">
+	<title>Relatório de pedidos</title>
+	<style>
+		/*
+	The sss stylesheet is released under the MIT license.
+	<https://github.com/Thiht/sss>
+	*/
+		pre,
+		td,
+		th {
+			padding: 5px 10px
+		}
+
+		code,
+		hr,
+		pre,
+		thead {
+			background: #EEE
+		}
+
+		body {
+			color: #333;
+			font-family: 'Segoe UI', 'Lucida Grande', Helvetica, sans-serif;
+			line-height: 1.5;
+		}
+
+		div.summup {
+			max-width: 800px;
+			margin: 50px auto;
+		}
+		div.detail {
+			padding: 20px;
+		}
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-weight: 400;
+			line-height: 1em;
+			margin: 20px 0
+		}
+
+		h1 {
+			font-size: 2.25em
+		}
+
+		h2 {
+			font-size: 1.75em
+		}
+
+		h3 {
+			font-size: 1.5em
+		}
+
+		h4,
+		h5,
+		h6 {
+			font-size: 1.25em
+		}
+
+		a {
+			color: #08C;
+			text-decoration: none
+		}
+
+		a:focus,
+		a:hover {
+			text-decoration: underline
+		}
+
+		a:visited {
+			color: #058
+		}
+
+		img {
+			max-width: 100%
+		}
+
+		li+li {
+			margin-top: 3px
+		}
+
+		dt {
+			font-weight: 700
+		}
+
+		code {
+			font-family: Consolas, "Lucida Console", monospace;
+			padding: 1px 5px
+		}
+
+		pre {
+			white-space: pre-wrap
+		}
+
+		pre code {
+			padding: 0
+		}
+
+		blockquote {
+			border-left: 5px solid #EEE;
+			margin: 0;
+			padding: 0 10px
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 100%
+		}
+
+		table+table {
+			margin-top: 1em
+		}
+
+		thead {
+			text-align: left
+		}
+
+		td,
+		th {
+			border: 1px solid #EEE
+		}
+		td.component{
+			word-break: break-all;
+		}
+
+		hr {
+			border: 0;
+			height: 1px
+		}
+	</style>
+	<style>
+		.banner {
+			text-align: center;
+		}
+
+		canvas {
+			display: block;
+			margin: 10px auto;
+		}
+	</style>
 </head>
+
 <body>
+	<div class=summup>
+		<!-- insert your company banner here -->
+		<!--
+		<p class="banner">
+			<a href="https://www.soprasteria.com/" target="_blank">
+				<img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/02/Sopra_Steria_logo.svg/1280px-Sopra_Steria_logo.svg.png" alt="Sopra Steria" height="50">
+			</a>
+		</p>
+		-->
 
-<h1>Relatório de Venda</h1>
+		<h1>Nota de compra</h1>
+		<h2>Barata comercio automotivos</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Cliente: {{venda.cliente}} </th>
-        </tr>
-    </thead>
-    <thead>
-        <tr>
-            <th>Valor: {{venda.total}} </th>
-        </tr>
-    </thead>
-    <thead>
-        <tr>
-            <th>Numero da Ordem: {{venda.id}} </th>
-        </tr>
-    </thead>
-    <thead>
-        <tr>
-            <th>Vendedor: {{venda.vendedor}}</th>
-        </tr>
-    </thead>
-    <thead>
-        <tr>
-            <th>Desconto: {{venda.desconto}}</th>
-        </tr>
-    </thead>
+		<dl>
+			<dt>Numero da Ordem:</dt>
+			<dd>{{venda.id}}</dd>
 
-</table>
+			<dt>Cliente: </dt>
+			<dd> {{venda.cliente}}</dd>
 
+			<dt>Valor: </dt>
+			<dd>{{venda.total}}</dd>
+
+			<dt>Vendedor: </dt>
+			<dd>{{venda.vendedor}}</dd>
+
+			<dt>Desconto: </dt>
+			<dd>{{venda.desconto}}</dd>
+
+			<dt>Total de produto: </dt>
+			<dd>{{total}}</dd>
+
+			
+		</dl>
+
+	</div>
+
+	<div class=detail>
+		
+		<h2>Lista de produtos</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>ID Venda</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for produto in produtos %}
+				<tr>
+					<td>{{produto.produto}}</td>
+                    <td>{{produto.quantidade}}</td>
+                    <td>{{produto.venda_id}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

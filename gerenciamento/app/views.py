@@ -12,6 +12,9 @@ from weasyprint import HTML
 from django.http import HttpResponse
 import tempfile
 from django.contrib.auth.decorators import login_required
+import json
+from django.forms.models import model_to_dict
+
 
 @login_required()
 def dashboard(request):
@@ -19,11 +22,14 @@ def dashboard(request):
     estoque = bases.estoque()
     cliente = bases.clientes() 
     novos_clientes = bases.novos_clientes()
-
+    top_5 = bases.top_5()
+    pessoas = bases.listar_funcionarios()
     dados = {'produtos_vendidos': len(produtos), 
              'estoque':estoque,
              'clientes': cliente,
-             'novos': len(novos_clientes)}
+             'novos': len(novos_clientes),
+              'top': top_5,
+               'pessoas': pessoas}
 
     return render(request, 'dashboard/dashboard.html', dados)
 
@@ -146,9 +152,36 @@ def cadastrar_estoque(request):
 
 @login_required()
 def cadastrar_venda(request):
-    prod = []
-    form_venda = VendaForm(request.POST)
-    if request.method == "POST" and 'submit-general-geral' in request.POST:
+    form_produto = ProdutoVendaForm(request.POST or None)
+    form_venda = VendaForm(request.POST or None)
+    items = []
+    if request.method == "POST" and 'submit-general-add' in request.POST:
+        if form_venda.is_valid() and form_produto.is_valid():
+            if 'items' in request.session:
+                items = request.session['items']
+            produto = form_produto.cleaned_data['produto']
+            quantidade = form_produto.cleaned_data['quantidade']
+
+            item = {'produto': model_to_dict(produto),
+                    'quantidade': quantidade}
+            try:
+                items.index(item)
+            except:
+                items.append(item)
+                request.session['cliente'] = str(form_venda.cleaned_data['cliente'])
+                request.session['desconto'] =  str(form_venda.cleaned_data['desconto'])
+                request.session['total'] =  str(form_venda.cleaned_data['total'])
+                request.session['metodo_pagamento'] =  str(form_venda.cleaned_data['metodo_pagamento'])
+                request.session['vendedor'] =  str(form_venda.cleaned_data['vendedor'])
+                request.session['data_venda'] =  str(form_venda.cleaned_data['data_venda'])
+                request.session['items'] = items
+
+            return render(request, 'venda/forms_vendas.html', {
+                'form_venda': form_venda, 
+                'form_produto':form_produto,
+                'items': items} )
+
+    elif request.method == "POST" and 'submit-general-geral' in request.POST:
         if form_venda.is_valid():
             cliente = form_venda.cleaned_data['cliente']
             desconto = form_venda.cleaned_data['desconto']
@@ -161,13 +194,28 @@ def cadastrar_venda(request):
                                      metodo_pagamento=metodo_pagamento,
                                      vendedor=vendedor, data_venda=data_venda)
             n_venda = bases.cadastrar_venda(nova_venda)
-            return redirect('listar_venda')    
-    else:
-        form_produto = ProdutoVendaForm()
-        form_venda = VendaForm()
-        context = {'form_venda': form_venda, 'form_produto':form_produto}
-        return render(request, 'venda/forms_vendas.html', context)
- 
+            for item in request.session['items']:
+                produto = bases.get_product(item['produto'])
+                quantidade = item['quantidade']
+                envolvimento = envolve.Envolve(produto=produto, quantidade=quantidade, venda=n_venda)
+                saida_produto = bases.saida_produto(envolvimento)
+            return redirect('listar_venda')  
+
+    if request.method == "POST":
+        if 'items' in request.session:
+            items = request.session['items']            
+        return render(request, 'venda/forms_vendas.html', {
+                'form_venda': form_venda, 
+                'form_produto':form_produto,
+                'items': items} )
+
+    request.session['items'] = items
+    return render(request, 'venda/forms_vendas.html', {
+        'form_venda': form_venda, 
+        'form_produto':form_produto,
+        'items': items})
+
+  
 
 @login_required()
 def cadastro_produto(request, id):
@@ -534,7 +582,11 @@ def deslogar_usuario(request):
 @login_required()
 def gerar_pdf_Venda(request, id):
     venda = bases.listar_venda_id(id)
-    html_string = render_to_string('dashboard/pdf.html', {'venda': venda})
+    produtos = bases.listar_envolve(venda.id)
+    total = 0 
+    for x in produtos:
+        total += x.quantidade
+    html_string = render_to_string('dashboard/pdf.html', {'venda': venda, 'produtos':produtos, 'total':total})
     html = HTML(string=html_string)
     resultado_pdf = html.write_pdf()
 

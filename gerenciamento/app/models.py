@@ -101,7 +101,7 @@ class Venda(models.Model):
 class Envolve(models.Model):
     venda = models.ForeignKey(Venda,on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto,on_delete=models.CASCADE)
-    quantidade = models.IntegerField()
+    quantidade = models.IntegerField() 
     def __str__(self):
         return self.id
 
