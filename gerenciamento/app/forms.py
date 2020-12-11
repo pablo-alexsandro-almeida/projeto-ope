@@ -35,7 +35,7 @@ class VeiculosForm(forms.ModelForm):
 
 
 class FuncionarioForm(UserCreationForm):
-    telefone = forms.CharField(min_length=7, validators=[RegexValidator('^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$', message="Telefone invalido")])
+    telefone = forms.CharField(min_length=9, validators=[RegexValidator('^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$', message="Telefone invalido")])
     class Meta:
         model = Funcionario
         fields = UserCreationForm.Meta.fields + ('nome', 'cpf', 'data_nascimento', 'profissao', 'telefone', 'email')
@@ -48,6 +48,7 @@ class FuncionarioForm(UserCreationForm):
 
 
 class FornecedorForm(forms.ModelForm):
+    telefone = forms.CharField(min_length=9, validators=[RegexValidator('^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$', message="Telefone invalido")])
     class Meta:
         model = Fornecedor
         fields = ['nome_fantasia', 'telefone', 'cnpj', 'email']
